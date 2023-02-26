@@ -41,6 +41,9 @@ class DateFilter(BaseFilter):
                         date_in_entry = datetime.strptime(date_in_entry_string, "%Y-%m-%d").timestamp()
                     except ValueError:
                         continue
+                    except OSError as e:
+                        logger.error(f"Error processing date string {date_in_entry_string} in entry {id}: {e}")
+                        continue
                     self.date_to_entry_ids[date_in_entry].add(id)
 
     def can_filter(self, raw_query):
